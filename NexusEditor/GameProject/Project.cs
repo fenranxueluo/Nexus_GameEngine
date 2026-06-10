@@ -1,13 +1,23 @@
-﻿using System.Collections.ObjectModel;
+﻿using NexusEditor;
+using NexusEditor.DllWrapper;
+using NexusEditor.GameDev;
+using NexusEditor.Utilities;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Input;
-using NexusEditor.Utilities;
-using NexusEditor.GameDev;
 
 namespace NexusEditor.GameProject;
+
+enum BuildConfiguration
+{
+    Debug,
+    DebugEditor,
+    Release,
+    ReleaseEditor,
+}
 
 [DataContract(Name = "Game")]
 class Project : ViewModelBase
@@ -23,6 +33,26 @@ class Project : ViewModelBase
     public string FullPath => $@"{Path}{Name}{Extension}";
 
     public string Solution => $@"{Path}{Name}.sln";
+
+    private static readonly string[] _buildConfigurationNames = new string[] { "Debug", "DebugEditor", "Release", "ReleaseEditor" };
+
+    private int _buildConfig;
+    [DataMember]
+    public int BuildConfig
+    {
+        get => _buildConfig;
+        set
+        {
+            if(_buildConfig != value)
+            {
+                _buildConfig = value;
+                OnPropertyChanged(nameof(BuildConfig));
+            }
+        }
+    }
+
+    public BuildConfiguration StandAloneBuildConfig => BuildConfig == 0 ? BuildConfiguration.Debug : BuildConfiguration.Release;
+    public BuildConfiguration DllBuildConfig => BuildConfig == 0 ? BuildConfiguration.DebugEditor : BuildConfiguration.ReleaseEditor;
 
     [DataMember(Name = "Scenes")]
     private ObservableCollection<Scene> _scenes = new ObservableCollection<Scene>();
@@ -52,6 +82,48 @@ class Project : ViewModelBase
     public ICommand AddSceneCommand {  get; private set; }
     public ICommand RemoveSceneCommand { get; private set; }
     public ICommand SaveCommand { get; private set; }
+    public ICommand BuildCommand { get; private set; }
+
+    private void SetCommands()
+    {
+        AddSceneCommand = new RelayCommand<object>(x =>
+            {
+                AddScene($"新场景 {_scenes.Count}");
+                var newScene = _scenes.Last();
+                var sceneInex = _scenes.Count - 1;
+
+                UndoRedo.Add(new UndoRedoAction(
+                () => RemoveScene(newScene),
+                () => _scenes.Insert(sceneInex, newScene),
+                        $"添加 {newScene.Name}"));
+            });
+
+        RemoveSceneCommand = new RelayCommand<Scene>(x =>
+        {
+            var sceneInex = _scenes.IndexOf(x);
+            RemoveScene(x);
+
+            UndoRedo.Add(new UndoRedoAction(
+               () => _scenes.Insert(sceneInex, x),
+               () => RemoveScene(x),
+                           $"移除 {x.Name}"));
+        }, x => !x.IsActive);
+
+        UndoCommand = new RelayCommand<object>(x => UndoRedo.Undo(), x => UndoRedo.UndoList.Any());
+        RedoCommand = new RelayCommand<object>(x => UndoRedo.Redo(), x => UndoRedo.RedoList.Any());
+        SaveCommand = new RelayCommand<object>(x => Save(this));
+        BuildCommand = new RelayCommand<bool>(async x => await BuildGameCodeDll(x), x => !VisualStudio.IsDebugging() && VisualStudio.BuildDone);
+
+        OnPropertyChanged(nameof(AddSceneCommand));
+        OnPropertyChanged(nameof(RemoveSceneCommand));
+        OnPropertyChanged(nameof(UndoCommand));
+        OnPropertyChanged(nameof(RedoCommand));
+        OnPropertyChanged(nameof(SaveCommand));
+        OnPropertyChanged(nameof(BuildCommand));
+    }
+
+private static string GetConfigurationName(BuildConfiguration config) => _buildConfigurationNames[(int)config];
+
     private void AddScene(string sceneName) 
     {
         Debug.Assert(!string.IsNullOrEmpty(sceneName.Trim()));
@@ -81,8 +153,49 @@ class Project : ViewModelBase
         Logger.Log(MessageType.Info, $"项目已保存到 {project.FullPath}");
     }
 
+    private async Task BuildGameCodeDll(bool showWindow = true)
+    {
+        try
+        {
+            UnloadGameCodeDll();
+            await Task.Run(() => VisualStudio.BuildSolution(this, GetConfigurationName(DllBuildConfig), showWindow));
+            VisualStudio.BuildSolution(this, GetConfigurationName(DllBuildConfig), showWindow);
+            if(VisualStudio.BuildSucceeded)
+            {
+                LoadGameCodeDll();
+            }
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            throw;
+        }
+    }
+
+    private void LoadGameCodeDll()
+    {
+        var configName = GetConfigurationName(DllBuildConfig);
+        var dll = $@"{Path}x64\{configName}\{Name}.dll";
+        if(File.Exists(dll) && EngineAPI.LoadGameCodeDll(dll) != 0)
+        {
+            Logger.Log(MessageType.Info, "游戏代码DLL已加载");
+        }
+        else
+        {
+            Logger.Log(MessageType.Warning, "无法加载游戏代码DLL，请先编译项目");
+        }
+    }
+
+    private void UnloadGameCodeDll()
+    {
+        if (EngineAPI.UnloadGameCodeDll() != 0)
+        {
+            Logger.Log(MessageType.Info, "游戏代码DLL已卸载");
+        }
+    }
+
     [OnDeserialized]
-    private void OnDeserialized(StreamingContext context)
+    private async void OnDeserialized(StreamingContext context)
     {
         if (_scenes != null)
         {
@@ -92,32 +205,9 @@ class Project : ViewModelBase
 
         ActiveScene = Scenes.FirstOrDefault(x => x.IsActive);
 
-        AddSceneCommand = new RelayCommand<object>(x =>
-        {
-            AddScene($"新场景 {_scenes.Count}");
-            var newScene = _scenes.Last();
-            var sceneInex = _scenes.Count - 1;
+        await BuildGameCodeDll(false);
 
-            UndoRedo.Add(new UndoRedoAction(
-                () => RemoveScene(newScene),
-                () => _scenes.Insert(sceneInex, newScene),
-                $"添加 {newScene.Name}"));
-        });
-
-        RemoveSceneCommand = new RelayCommand<Scene>(x =>
-        {
-            var sceneInex = _scenes.IndexOf(x);
-            RemoveScene(x);
-
-            UndoRedo.Add(new UndoRedoAction(
-               () => _scenes.Insert(sceneInex, x),
-               () => RemoveScene(x),
-               $"移除 {x.Name}"));
-        }, x => !x.IsActive);
-
-        UndoCommand = new RelayCommand<object>(x => UndoRedo.Undo());
-        RedoCommand = new RelayCommand<object>(x => UndoRedo.Redo());
-        SaveCommand = new RelayCommand<object>(x => Save(this));
+        SetCommands();
     }
 
     public Project(string name , string path)

@@ -36,12 +36,12 @@ class GameEntity : ViewModelBase
                 _isActive = value;
                 if(_isActive)
                 {
-                    EntityId = EngineAPI.CreateGameEntity(this);
+                    EntityId = EngineAPI.EntityAPI.CreateGameEntity(this);
                     Debug.Assert(ID.isValid(_entityId));
                 }
                 else if (ID.isValid(_entityId))
                 {
-                    EngineAPI.RemoveGameEntity(this);
+                    EngineAPI.EntityAPI.RemoveGameEntity(this);
                     EntityId = ID.INVALID_ID;
                 }
                 OnPropertyChanged(nameof(IsActive));

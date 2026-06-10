@@ -10,7 +10,7 @@ namespace NexusEditor;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public static string PrimalPath { get; private set; } = @"D:\VisualStudi_Project\My_GameEngine\Nexus";
+    public static string PrimalPath { get; private set; }
     public MainWindow()
     {
         InitializeComponent();

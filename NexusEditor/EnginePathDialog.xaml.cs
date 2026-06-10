@@ -23,15 +23,15 @@ namespace NexusEditor
 
             if (string.IsNullOrEmpty(path))
             {
-                messageTextBlock.Text = "Please enter a valid path";
+                messageTextBlock.Text = "请输入有效路径";
             }
             else if (path.IndexOfAny(Path.GetInvalidPathChars()) != -1)
             {
-                messageTextBlock.Text = "Invalid character(s) used in path";
+                messageTextBlock.Text = "路径中使用了无效字符";
             }
             else if (!Directory.Exists(Path.Combine(path, @"Engine\EngineAPI")))
             {
-                messageTextBlock.Text = "Unable to find Engine in the specified location";
+                messageTextBlock.Text = "无法在指定位置找到引擎";
             }
             if (string.IsNullOrEmpty(messageTextBlock.Text))
             {

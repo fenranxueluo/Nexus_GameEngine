@@ -1,6 +1,9 @@
-﻿using NexusEditor.Utilities;
+﻿using NexusEditor.GameProject;
+using NexusEditor.Utilities;
+using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
@@ -8,6 +11,9 @@ namespace NexusEditor.GameDev
 {
     static class VisualStudio
     {
+        public static bool BuildSucceeded { get; private set; } = true;
+        public static bool BuildDone { get; private set; } = true;
+
         private static EnvDTE80.DTE2 _vsInstance = null;
         private static readonly string _progID = "VisualStudio.DTE.18.0";  //VisualStudio 2022版本为17.0，2026版本为18.0
 
@@ -66,7 +72,7 @@ namespace NexusEditor.GameDev
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                Logger.Log(MessageType.Error, "Failed to Open Visual Studio");
+                Logger.Log(MessageType.Error, "无法打开 Visual Studio");
             }
 
             finally
@@ -123,10 +129,86 @@ namespace NexusEditor.GameDev
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                Debug.WriteLine("Failed to Add Files to Visual Studio Solution");
+                Debug.WriteLine("无法将文件添加到 Visual Studio 解决方案里");
                 return false;
             }
             return true;
+        }
+
+        private static void OnBuildSolutionBegin(string project, string projectConfig, string platform, string solutionConfig)
+        {
+            Logger.Log(MessageType.Info, $"构建 {project}, {projectConfig}, {platform}, {solutionConfig}");
+        }
+
+        private static void OnBuildSolutionDone(string project, string projectConfig, string platform, string solutionConfig, bool success)
+        {
+            if (BuildDone) return;
+
+            if (success) Logger.Log(MessageType.Info, $"构建 {projectConfig} 构建成功");
+            else Logger.Log(MessageType.Error, $"构建 {projectConfig} 构建失败");
+
+            BuildDone = true;
+            BuildSucceeded = success;
+        }
+
+        public static bool IsDebugging()
+        {
+            bool result = false;
+            for (int i = 0; i < 3; ++i)
+            {
+                try
+                {
+                    result = _vsInstance != null && (_vsInstance.Debugger.CurrentProgram != null || _vsInstance.Debugger.CurrentMode == EnvDTE.dbgDebugMode.dbgRunMode);
+                }
+                catch (Exception ex)
+                {
+                    Debug.Write(ex.Message);
+                    if (!result) System.Threading.Thread.Sleep(1000);
+                }
+            }
+            return result;
+        }
+
+        public static void BuildSolution(Project project, string configName, bool showWindow = true)
+        {
+            if (IsDebugging())
+            {
+                Logger.Log(MessageType.Error, "Visual Studio 正在运行一个进程");
+                return;
+            }
+
+            OpenVisualStudio(project.Solution);
+            BuildDone = BuildSucceeded = false;
+
+            for (int i = 0; i < 3; ++i)
+            {
+                try
+                {
+                    if (!_vsInstance.Solution.IsOpen) _vsInstance.Solution.Open(project.Solution);
+                    _vsInstance.MainWindow.Visible = showWindow;
+
+                    _vsInstance.Events.BuildEvents.OnBuildProjConfigBegin += OnBuildSolutionBegin;
+                    _vsInstance.Events.BuildEvents.OnBuildProjConfigDone += OnBuildSolutionDone;
+
+                    try
+                    {
+                        foreach (var pdbFile in Directory.GetFiles(Path.Combine($"{project.Path}", $@"x64\{configName}"), "*.pdb"))
+                            {
+                                 File.Delete(pdbFile);
+                            }
+                     }
+                    catch (Exception ex) { Debug.WriteLine(ex.Message); }
+
+                    _vsInstance.Solution.SolutionBuild.SolutionConfigurations.Item(configName).Activate();
+                    _vsInstance.ExecuteCommand("Build.BuildSolution");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    Debug.WriteLine($"尝试次数 {i}: 未能成功构建 {project.Name}");
+                    System.Threading.Thread.Sleep(1000);
+                }
+            }
         }
     }
 }
