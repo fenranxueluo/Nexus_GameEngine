@@ -3,7 +3,9 @@ using NexusEditor.GameProject;
 using NexusEditor.Utilities;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace NexusEditor.Editors;
 /// <summary>
@@ -75,5 +77,55 @@ public partial class GameEntityView : UserControl
         var redoAction = GetIsEnabledAction();
         Project.UndoRedo.Add(new UndoRedoAction(undoAction, redoAction,
             vm.IsEnabled == true ? "启用游戏实体" : "禁用游戏实体"));
+    }
+
+    private void OnAddComponent_Button_PreviewMouse_LBD(object sender, MouseButtonEventArgs e)
+    {
+        var menu = FindResource("addComponentMenu") as ContextMenu;
+        var btn = sender as ToggleButton;
+        btn.IsChecked = true;
+        menu.Placement = PlacementMode.Bottom;
+        menu.PlacementTarget = btn;
+        menu.MinWidth = btn.ActualWidth;
+        menu.IsOpen = true;
+    }
+
+    private void AddComponent(ComponentType componentType, object data)
+    {
+        var creationFunction = ComponentFactory.GetCreationFunction(componentType);
+        var changedEntities = new List<(GameEntity entity, Component component)>();
+        var vm = DataContext as MSEntity;
+
+        foreach (var entity in vm.SelectedEntities)
+        {
+            var component = creationFunction(entity, data);
+            if (entity.AddComponent(component))
+                changedEntities.Add((entity, component));
+        }
+
+        if (changedEntities.Any())
+        {
+            vm.Refresh();
+
+            Project.UndoRedo.Add(new UndoRedoAction(
+                                () =>
+                                {
+                                    changedEntities.ForEach(x => x.entity.RemoveComponent(x.component));
+                                    (DataContext as MSEntity).Refresh();
+                                },
+                                () =>
+                                {
+                                    changedEntities.ForEach(x => x.entity.AddComponent(x.component));
+                                    (DataContext as MSEntity).Refresh();
+                                },
+                                $"Add {componentType} Component"
+                                ));
+        }
+    }
+
+
+    private void OnAddScriptComponent(object sender, RoutedEventArgs e)
+    {
+        AddComponent(ComponentType.Script, (sender as MenuItem).Header.ToString());
     }
 }

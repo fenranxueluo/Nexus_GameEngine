@@ -54,6 +54,20 @@ class Project : ViewModelBase
     public BuildConfiguration StandAloneBuildConfig => BuildConfig == 0 ? BuildConfiguration.Debug : BuildConfiguration.Release;
     public BuildConfiguration DllBuildConfig => BuildConfig == 0 ? BuildConfiguration.DebugEditor : BuildConfiguration.ReleaseEditor;
 
+    private string[] _availableScripts;
+    public string[] AvailableScripts
+     {
+        get => _availableScripts;
+        set
+        {
+            if (_availableScripts != value)
+            {
+                _availableScripts = value;
+                OnPropertyChanged(nameof(AvailableScripts));
+            }
+        }
+    }
+
     [DataMember(Name = "Scenes")]
     private ObservableCollection<Scene> _scenes = new ObservableCollection<Scene>();
     public ReadOnlyObservableCollection<Scene> Scenes
@@ -176,8 +190,10 @@ private static string GetConfigurationName(BuildConfiguration config) => _buildC
     {
         var configName = GetConfigurationName(DllBuildConfig);
         var dll = $@"{Path}x64\{configName}\{Name}.dll";
-        if(File.Exists(dll) && EngineAPI.LoadGameCodeDll(dll) != 0)
+        AvailableScripts = null;
+        if (File.Exists(dll) && EngineAPI.LoadGameCodeDll(dll) != 0)
         {
+            AvailableScripts = EngineAPI.GetScriptNames();
             Logger.Log(MessageType.Info, "游戏代码DLL已加载");
         }
         else
@@ -191,6 +207,7 @@ private static string GetConfigurationName(BuildConfiguration config) => _buildC
         if (EngineAPI.UnloadGameCodeDll() != 0)
         {
             Logger.Log(MessageType.Info, "游戏代码DLL已卸载");
+            AvailableScripts = null;
         }
     }
 
