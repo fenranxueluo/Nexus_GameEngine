@@ -75,7 +75,7 @@ namespace NexusEditor.DllWrapper
                         }
                         else
                         {
-                            Logger.Log(MessageType.Error, $"Unable to Find Script with Name {c.Name}. Game Entity will be created without Script Component!");
+                            Logger.Log(MessageType.Error, $"无法找到脚本 {c.Name}. 游戏实体将无需脚本直接创建!");
                         }
                     }
                 }

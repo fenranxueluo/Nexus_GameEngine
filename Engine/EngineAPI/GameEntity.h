@@ -62,25 +62,29 @@ extern "C" __declspec(dllexport)
 #ifdef USE_WITH_EDITOR
 			u8 add_script_name(const char* name);
 
-#define REGISTER_SCRIPT(TYPE)														\
+#define REGISTER_SCRIPT(TYPE)												\
 				namespace {															\
-				const u8 _reg##TYPE													\
-				{ primal::script::detail::register_script(							\
-					primal::script::detail::string_hash()(#TYPE),					\
-					&primal::script::detail::create_script<TYPE>) };				\
-				const u8 _name_##TYPE												\
-				{ primal::script::detail::add_script_name(#TYPE)}					\
+					const u8 _reg##TYPE {											\
+						primal::script::detail::register_script(					\
+							primal::script::detail::string_hash()(#TYPE),			\
+								&primal::script::detail::create_script<TYPE>)		\
+					};																\
+					const u8 _name_##TYPE											\
+					{																\
+						primal::script::detail::add_script_name(#TYPE)				\
+					};																\
 				}
 
-#else
-#define REGISTER_SCRIPT(TYPE)														\															
+#else // USE_WITH_EDITOR
+#define REGISTER_SCRIPT(TYPE)												\
 				namespace {															\
-				const u8 _reg##TYPE													\
-				{ primal::script::detail::register_script(							\
-					primal::script::detail::string_hash()(#TYPE),					\
-					&primal::script::detail::create_script<TYPE>) };				\		
+					const u8 _reg##TYPE {											\
+						primal::script::detail::register_script(					\
+							primal::script::detail::string_hash()(#TYPE),			\
+								&primal::script::detail::create_script<TYPE>)		\
+					};																\
 				}
-#endif //USE_WITH_EDITOR
+#endif // USE_WITH_EDITOR
 
 		} // namespace detail
 	} // namespace script
