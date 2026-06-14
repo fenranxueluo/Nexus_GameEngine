@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using NexusEditor.Components;
 using NexusEditor.EngineAPIStructs;
+using NexusEditor.GameProject;
+using NexusEditor.Utilities;
 
 
 namespace NexusEditor.EngineAPIStructs
@@ -62,7 +64,20 @@ namespace NexusEditor.DllWrapper
 
                 //script component
                 {
-                    //var c = entity.GetComponent<Script>();
+                    // Note: Here we also check if the cuurent project is not null, so we can tell whether the game code DLL has been loaded or not.
+                    // This way, creation of entities with a script component is deferred until the DLL has been loaded.
+                    var c = entity.GetComponent<Script>();
+                    if (c != null && Project.Current != null)
+                    {
+                        if (Project.Current.AvailableScripts.Contains(c.Name))
+                        {
+                            desc.Script.ScriptCreator = GetScriptCreator(c.Name);
+                        }
+                        else
+                        {
+                            Logger.Log(MessageType.Error, $"Unable to Find Script with Name {c.Name}. Game Entity will be created without Script Component!");
+                        }
+                    }
                 }
 
                 return CreateGameEntity(desc);
