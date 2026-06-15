@@ -6,11 +6,11 @@
 #include <Windows.h>
 #include <crtdbg.h>
 
+#ifndef USE_WITH_EDITOR
+
 extern bool engine_initialize();
 extern void engine_update();
 extern void engine_shutdown();
-
-#ifndef USE_WITH_EDITOR
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -30,6 +30,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 				DispatchMessage(&msg);
 				is_running &= (msg.message != WM_QUIT);
 			}
+			engine_update();
 		}
 	}
 

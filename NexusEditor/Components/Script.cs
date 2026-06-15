@@ -31,10 +31,6 @@ class Script : Component
         bw.Write(nameBytes);
     }
 
-    public override void WriteToBinary(BinaryWriter bw)
-    {
-        throw new NotImplementedException();
-    }
 
     public Script(GameEntity owner) : base(owner) { }
 }
