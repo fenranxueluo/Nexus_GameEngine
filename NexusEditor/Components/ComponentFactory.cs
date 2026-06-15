@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 
-namespace NexusEditor.Components
-{
+namespace NexusEditor.Components;
+
     enum ComponentType
     {
         Transform,
@@ -22,5 +22,14 @@ namespace NexusEditor.Components
             Debug.Assert((int)componentType < _function.Length);
             return _function[(int)componentType];
         }
+
+        public static ComponentType ToEnumType(this Component component)
+        {
+            return component switch
+            {
+                Transform _ => ComponentType.Transform,
+                Script _ => ComponentType.Script,
+                _ => throw new ArgumentException("Unknown Component Type")
+            };
+        }
     }
-}

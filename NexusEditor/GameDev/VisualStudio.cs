@@ -5,8 +5,8 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace NexusEditor.GameDev
-{
+namespace NexusEditor.GameDev;
+
     static class VisualStudio
     {
         public static bool BuildSucceeded { get; private set; } = true;
@@ -210,9 +210,24 @@ namespace NexusEditor.GameDev
                 {
                     Debug.WriteLine(ex.Message);
                     Debug.WriteLine($"尝试次数 {i}: 未能成功构建 {project.Name}");
-                    System.Threading.Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                 }
             }
         }
+
+        public static void Run(Project project, string configname, bool debug)
+        {
+            if (_vsInstance != null && !IsDebugging() && BuildDone && BuildSucceeded)
+            {
+                _vsInstance.ExecuteCommand(debug ? "Debug.Start" : "Debug.StartWithoutDebugging");
+            }
+        }
+
+        public static void Stop()
+        {
+            if (_vsInstance != null && IsDebugging())
+            {
+                _vsInstance.ExecuteCommand("Debug.StopDebugging");
+            }
+        }
     }
-}
