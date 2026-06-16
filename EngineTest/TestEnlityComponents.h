@@ -7,7 +7,7 @@
 #include <iostream>
 #include <ctime>
 
-using namespace primal;
+using namespace nexus;
 
 class engine_test : public test
 {

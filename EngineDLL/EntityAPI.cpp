@@ -6,7 +6,7 @@
 #include "../Engine/Components/Transform.h"
 #include "..\Engine\Components\Script.h"
 
-using namespace primal;
+using namespace nexus;
 
 namespace {
 

@@ -3,7 +3,7 @@
 
 #if !defined(SHIPPING)
 
-namespace primal::content {
+namespace nexus::content {
 	bool load_game();
 	void unload_game();
 }

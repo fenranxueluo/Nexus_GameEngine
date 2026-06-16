@@ -2,7 +2,7 @@
 
 #include "ComponentsCommon.h"
 
-namespace primal::transform {
+namespace nexus::transform {
 
 	struct init_info
 	{

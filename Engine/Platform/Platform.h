@@ -4,7 +4,7 @@
 #include "Window.h"
 
 
-namespace primal::platform {
+namespace nexus::platform {
 
 	struct window_init_info;
 

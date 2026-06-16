@@ -1,7 +1,7 @@
 ﻿#include "Script.h"
 #include "Entity.h"
 
-namespace primal::script {
+namespace nexus::script {
 	namespace {
 		utl::vector<detail::script_ptr>		entity_scripts;
 		utl::vector<id::id_type>			id_mapping;
@@ -53,8 +53,8 @@ namespace primal::script {
 
 		script_creator get_script_creator(size_t tag)
 		{
-			auto script = primal::script::registry().find(tag);
-			assert(script != primal::script::registry().end() && script->first == tag);
+			auto script = nexus::script::registry().find(tag);
+			assert(script != nexus::script::registry().end() && script->first == tag);
 			return script->second;
 		}
 
@@ -125,12 +125,12 @@ namespace primal::script {
 extern "C" __declspec(dllexport)
 LPSAFEARRAY get_script_names()
 {
-	const u32 size{ (u32)primal::script::script_names().size() };
+	const u32 size{ (u32)nexus::script::script_names().size() };
 	if (!size) return nullptr;
 	CComSafeArray<BSTR> names(size);
 	for (u32 i{ 0 }; i < size; ++i)
 	{
-		names.SetAt(i, A2BSTR_EX(primal::script::script_names()[i].c_str()), false);
+		names.SetAt(i, A2BSTR_EX(nexus::script::script_names()[i].c_str()), false);
 	}
 	return names.Detach();
 }

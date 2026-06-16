@@ -2,7 +2,7 @@
 
 #include "CommonHeaders.h"
 
-namespace primal::math {
+namespace nexus::math {
 
 	constexpr float pi = 3.1415926535897932384626433832795f;
 	constexpr float epsilon = 0e-5f;

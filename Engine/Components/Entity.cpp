@@ -2,7 +2,7 @@
 #include "Transform.h"
 #include "Script.h"
 
-namespace primal::game_entity {
+namespace nexus::game_entity {
 	namespace {
 
 		utl::vector<transform::component>   transforms;

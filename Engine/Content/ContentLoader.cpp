@@ -10,7 +10,7 @@
 #include <filesystem>
 #include <Windows.h>
 
-namespace primal::content {
+namespace nexus::content {
 
 	namespace {
 		enum componet_type

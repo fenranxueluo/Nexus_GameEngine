@@ -8,7 +8,7 @@ namespace NexusEditor
     /// </summary>
     public partial class EnginePathDialog : Window
     {
-        public string PrimalPath { get; private set; }
+        public string NexusPath { get; private set; }
 
         public EnginePathDialog()
         {
@@ -36,7 +36,7 @@ namespace NexusEditor
             if (string.IsNullOrEmpty(messageTextBlock.Text))
             {
                 if (!Path.EndsInDirectorySeparator(path)) path += @"\";
-                PrimalPath = path;
+                NexusPath = path;
                 DialogResult = true;
                 Close();
             }

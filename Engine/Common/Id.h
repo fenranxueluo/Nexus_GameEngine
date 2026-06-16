@@ -2,7 +2,7 @@
 
 #include "CommonHeaders.h"
 
-namespace primal::id
+namespace nexus::id
 {
 	using id_type = u32;
 

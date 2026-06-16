@@ -103,7 +103,7 @@
 `Common/PrimitiveTypes.h` 定义精确宽度类型别名，避免平台依赖：
 
 ```cpp
-namespace primal {
+namespace nexus {
     using u64 = uint64_t;  using u32 = uint32_t;
     using u16 = uint16_t;  using u8  = uint8_t;
     using s64 = int64_t;   using s32 = int32_t;
@@ -173,7 +173,7 @@ utl::vector<math::v3> scales;      // 缩放
 `Utilities/MathTypes.h` 基于 DirectXMath 封装，预留跨平台切换能力：
 
 ```cpp
-namespace primal::math {
+namespace nexus::math {
     using v2   = DirectX::XMFLOAT2;
     using v3   = DirectX::XMFLOAT3;
     using v4   = DirectX::XMFLOAT4;
@@ -198,7 +198,7 @@ namespace primal::math {
         static const u8 _reg;                                          \
     };                                                                 \
     const u8 TYPE##_registrar::_reg =                                  \
-        primal::script::register_script(                               \
+        nexus::script::register_script(                               \
             typeid(TYPE).hash_code(),                                  \
             [](game_entity::entity e) -> entity_script* {              \
                 return new TYPE(e);                                    \

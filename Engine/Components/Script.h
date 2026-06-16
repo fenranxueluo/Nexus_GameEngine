@@ -2,7 +2,7 @@
 
 #include "ComponentsCommon.h"
 
-namespace primal::script {
+namespace nexus::script {
 
 	struct init_info
 	{

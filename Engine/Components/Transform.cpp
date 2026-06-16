@@ -1,7 +1,7 @@
 ﻿#include "Transform.h"
 #include "Entity.h"
 
-namespace primal::transform {
+namespace nexus::transform {
 	namespace {
 		utl::vector<math::v4> rotations;
 		utl::vector<math::v3> positions;

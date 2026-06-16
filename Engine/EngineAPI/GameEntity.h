@@ -4,7 +4,7 @@
 #include "TransformComponent.h"
 #include "ScriptComponent.h"
 
-namespace primal {
+namespace nexus {
 
 	namespace game_entity {
 
@@ -65,13 +65,13 @@ extern "C" __declspec(dllexport)
 #define REGISTER_SCRIPT(TYPE)												\
 				namespace {															\
 					const u8 _reg##TYPE {											\
-						primal::script::detail::register_script(					\
-							primal::script::detail::string_hash()(#TYPE),			\
-								&primal::script::detail::create_script<TYPE>)		\
+						nexus::script::detail::register_script(					\
+							nexus::script::detail::string_hash()(#TYPE),			\
+								&nexus::script::detail::create_script<TYPE>)		\
 					};																\
 					const u8 _name_##TYPE											\
 					{																\
-						primal::script::detail::add_script_name(#TYPE)				\
+						nexus::script::detail::add_script_name(#TYPE)				\
 					};																\
 				}
 
@@ -79,9 +79,9 @@ extern "C" __declspec(dllexport)
 #define REGISTER_SCRIPT(TYPE)												\
 				namespace {															\
 					const u8 _reg##TYPE {											\
-						primal::script::detail::register_script(					\
-							primal::script::detail::string_hash()(#TYPE),			\
-								&primal::script::detail::create_script<TYPE>)		\
+						nexus::script::detail::register_script(					\
+							nexus::script::detail::string_hash()(#TYPE),			\
+								&nexus::script::detail::create_script<TYPE>)		\
 					};																\
 				}
 #endif // USE_WITH_EDITOR

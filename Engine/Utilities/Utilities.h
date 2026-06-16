@@ -6,7 +6,7 @@
 #if USF_STL_VECTOR
 #include <algorithm>
 #include <vector>
-namespace primal::utl {
+namespace nexus::utl {
 	template<typename T>
 	using vector = std::vector<T>;
 
@@ -27,13 +27,13 @@ namespace primal::utl {
 
 #if USF_STL_DEQUE
 #include <deque>
-namespace primal::utl {
+namespace nexus::utl {
 	template<typename T>
 	using deque = std::deque<T>;
 }
 #endif
 
-namespace primal::utl {
+namespace nexus::utl {
 
 	// TODO:
 }

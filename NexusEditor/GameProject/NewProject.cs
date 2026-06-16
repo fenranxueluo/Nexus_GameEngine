@@ -182,13 +182,13 @@ public class NewProject : ViewModelBase
         Debug.Assert(File.Exists(Path.Combine(template.TemplatePath, "MSVCSolution")));
         Debug.Assert(File.Exists(Path.Combine(template.TemplatePath, "MSVCProject")));
 
-        var engineAPIPath = Path.Combine(MainWindow.PrimalPath, @"Engine\EngineAPI\");
+        var engineAPIPath = Path.Combine(MainWindow.NexusPath, @"Engine\EngineAPI\");
         Debug.Assert(Directory.Exists(engineAPIPath));
 
         var _0 = ProjectName;
         var _1 = "{" + Guid.NewGuid().ToString().ToUpper() + "}";
         var _2 = engineAPIPath;
-        var _3 = MainWindow.PrimalPath;
+        var _3 = MainWindow.NexusPath;
 
         var solution = File.ReadAllText(Path.Combine(template.TemplatePath, "MSVCSolution"));
         solution = string.Format(solution, _0, _1, "{" + Guid.NewGuid().ToString().ToUpper() + "}");

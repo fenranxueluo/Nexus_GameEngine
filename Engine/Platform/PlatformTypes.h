@@ -9,7 +9,7 @@
 
 #include <Windows.h>
 
-namespace primal::platform {
+namespace nexus::platform {
 
 	using window_proc = LRESULT(*)(HWND, UINT, WPARAM, LPARAM);
 	using window_handle = HWND;

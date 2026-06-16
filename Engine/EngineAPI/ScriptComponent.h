@@ -2,7 +2,7 @@
 #pragma once
 #include "../Components/ComponentsCommon.h"
 
-namespace primal::script {
+namespace nexus::script {
 
 	DEFINE_TYPED_ID(script_id);
 

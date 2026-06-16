@@ -7,9 +7,14 @@
     <Platform Name="x64" />
   </Configurations>
   <Project Path="Engine/Engine.vcxproj" Id="17b680d4-0512-4ac7-8805-cb1b99a9dd3a" />
-  <Project Path="EngineDLL/EngineDLL.vcxproj" Id="c4a0bf0b-e792-46fe-b262-14dd04026028" />
-  <Project Path="EngineTest/EngineTest.vcxproj" Id="ac6a1533-906a-4447-ad8e-9ce8852966de" />
+  <Project Path="EngineDLL/EngineDLL.vcxproj" Id="c4a0bf0b-e792-46fe-b262-14dd04026028">
+    <BuildDependency Project="Engine/Engine.vcxproj" />
+  </Project>
+  <Project Path="EngineTest/EngineTest.vcxproj" Id="ac6a1533-906a-4447-ad8e-9ce8852966de">
+    <BuildDependency Project="Engine/Engine.vcxproj" />
+  </Project>
   <Project Path="nexusEditor/NexusEditor.csproj">
+    <BuildDependency Project="EngineDLL/EngineDLL.vcxproj" />
     <Platform Project="x64" />
   </Project>
 </Solution>

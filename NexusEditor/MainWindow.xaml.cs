@@ -10,7 +10,7 @@ namespace NexusEditor;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public static string PrimalPath { get; private set; }
+    public static string NexusPath { get; private set; }
     public MainWindow()
     {
         InitializeComponent();
@@ -28,14 +28,14 @@ public partial class MainWindow : Window
 
     private void GetEnginePath()
     {
-        var primalPath = Environment.GetEnvironmentVariable("PRIMAL_ENGINE", EnvironmentVariableTarget.User);
-        if (primalPath == null || !Directory.Exists(Path.Combine(primalPath, @"Engine\EngineAPI")))
+        var nexusPath = Environment.GetEnvironmentVariable("NEXUS_ENGINE", EnvironmentVariableTarget.User);
+        if (nexusPath == null || !Directory.Exists(Path.Combine(nexusPath, @"Engine\EngineAPI")))
         {
             var dlg = new EnginePathDialog();
             if (dlg.ShowDialog() == true)
             {
-                PrimalPath = dlg.PrimalPath;
-                Environment.SetEnvironmentVariable("PRIMAL_ENGINE", PrimalPath.ToUpper(), EnvironmentVariableTarget.User);
+                NexusPath = dlg.NexusPath;
+                Environment.SetEnvironmentVariable("NEXUS_ENGINE", NexusPath.ToUpper(), EnvironmentVariableTarget.User);
             }
             else
             {
@@ -44,7 +44,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            PrimalPath = primalPath;
+            NexusPath = nexusPath;
         }
     }
 

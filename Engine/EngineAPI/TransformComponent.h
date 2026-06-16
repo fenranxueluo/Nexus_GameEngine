@@ -2,7 +2,7 @@
 
 #include "../Components/ComponentsCommon.h"
 
-namespace primal::transform {
+namespace nexus::transform {
 
 	DEFINE_TYPED_ID(transform_id);
 

@@ -38,11 +38,11 @@ namespace {1} {{
 
 namespace {1} {{
 
-	class {0} : public primal::script::entity_script
+	class {0} : public nexus::script::entity_script
 	{{
 	public:
-		constexpr explicit {0}(primal::game_entity::entity entity)
-			: primal::script::entity_script(entity) {{}}
+		constexpr explicit {0}(nexus::game_entity::entity entity)
+			: nexus::script::entity_script(entity) {{}}
 
 		void begin_play() override;
 		void update(float dt) override;

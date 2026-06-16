@@ -8,11 +8,11 @@
 
 #include <Windows.h>
 
-using namespace primal;
+using namespace nexus;
 
 namespace {
 	HMODULE game_code_dll{ nullptr };
-	using _get_script_creator = primal::script::detail::script_creator(*)(size_t);
+	using _get_script_creator = nexus::script::detail::script_creator(*)(size_t);
 	_get_script_creator get_script_creator{ nullptr };
 	using _get_script_names = LPSAFEARRAY(*)(void);
 	_get_script_names get_script_names{ nullptr };
