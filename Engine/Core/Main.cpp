@@ -30,6 +30,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 				DispatchMessage(&msg);
 				is_running &= (msg.message != WM_QUIT);
 			}
+
 			engine_update();
 		}
 	}
