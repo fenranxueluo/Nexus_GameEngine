@@ -55,6 +55,9 @@ namespace NexusEditor.DllWrapper
         [DllImport(_engineDll)]
         public static extern IntPtr GetWindowHandle(int surfaceId);
 
+        [DllImport(_engineDll)]
+        public static extern int ResizeRenderSurface(int surfaceId);
+
         internal static class EntityAPI
         {
             [DllImport(_engineDll)]

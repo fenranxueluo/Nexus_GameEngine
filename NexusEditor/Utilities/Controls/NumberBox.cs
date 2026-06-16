@@ -2,8 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace NexusEditor.Utilities.Controls
-{
+namespace NexusEditor.Utilities.Controls;
+
     [TemplatePart(Name = "PART_textBlock", Type = typeof(TextBlock))]
     [TemplatePart(Name = "PART_textBox", Type = typeof(TextBox))]
     class NumberBox : Control
@@ -99,4 +99,3 @@ namespace NexusEditor.Utilities.Controls
                 new FrameworkPropertyMetadata(typeof(NumberBox)));
         }
     }
-}

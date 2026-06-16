@@ -7,8 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace NexusEditor.GameDev
-{
+namespace NexusEditor.GameDev;
     /// <summary>
     /// Interaction logic for NewScriptDialog.xaml
     /// </summary>
@@ -178,4 +177,3 @@ namespace {1} {{
             scriptPath.Text = @"GameCode\";
         }
     }
-}

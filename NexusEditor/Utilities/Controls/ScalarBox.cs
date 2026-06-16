@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
-namespace NexusEditor.Utilities.Controls
-{
+namespace NexusEditor.Utilities.Controls;
+
     class ScalarBox : NumberBox
     {
         static ScalarBox()
@@ -10,4 +10,3 @@ namespace NexusEditor.Utilities.Controls
                 new FrameworkPropertyMetadata(typeof(ScalarBox)));
         }
     }
-}

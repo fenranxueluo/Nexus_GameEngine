@@ -1,11 +1,8 @@
 ﻿using System.IO;
 using System.Windows;
 
-namespace NexusEditor
-{
-    /// <summary>
-    /// Interaction logic for EnginePathDialog.xaml
-    /// </summary>
+namespace NexusEditor;
+   
     public partial class EnginePathDialog : Window
     {
         public string NexusPath { get; private set; }
@@ -42,4 +39,3 @@ namespace NexusEditor
             }
         }
     }
-}

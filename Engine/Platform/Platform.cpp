@@ -20,8 +20,6 @@ namespace nexus::platform {
 
 		utl::vector<window_info> windows;
 
-		///////////////////////////////////////////////////////////////////
-		// TODO: This part will be handled by a free-list container later
 		utl::vector<u32> available_slots;
 
 		u32 add_to_windows(window_info info)
@@ -47,7 +45,6 @@ namespace nexus::platform {
 			assert(id < windows.size());
 			available_slots.emplace_back(id);
 		}
-		///////////////////////////////////////////////////////////////////
 
 		window_info& get_from_id(window_id id)
 		{
@@ -65,7 +62,6 @@ namespace nexus::platform {
 
 		LRESULT CALLBACK internal_window_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		{
-			// Handle messages
 			window_info* info{ nullptr };
 			switch (msg)
 			{
@@ -97,14 +93,13 @@ namespace nexus::platform {
 				GetClientRect(info->hwnd, info->is_fullscreen ? &info->fullscreen_area : &info->client_area);
 			}
 
-			LONG_PTR long_ptr{ GetWindowLongPtr(hwnd, 0) }; // Points to a buffer and at index 0 it reserves the bytes for the callback
-			// Get a pointer to the callback function then if it is not null call it otherwise call the default
+			LONG_PTR long_ptr{ GetWindowLongPtr(hwnd, 0) }; 
+
 			return long_ptr ? ((window_proc)long_ptr)(hwnd, msg, wparam, lparam) : DefWindowProc(hwnd, msg, wparam, lparam);
 		}
 
 		void resize_window(const window_info& info, const RECT& area)
 		{
-			// Set the window size for the device
 			RECT window_rect{ area };
 			AdjustWindowRect(&window_rect, info.style, FALSE);
 
@@ -118,25 +113,31 @@ namespace nexus::platform {
 		{
 			window_info& info{ get_from_id(id) };
 
-			RECT& area{ info.is_fullscreen ? info.fullscreen_area : info.client_area };
-			area.bottom = area.top + height;
-			area.right = area.left + width;
+			if (info.style & WS_CHILD)
+			{
+				GetClientRect(info.hwnd, &info.client_area);
+			}
 
-			resize_window(info, area);
+			else
+			{
+				RECT& area{ info.is_fullscreen ? info.fullscreen_area : info.client_area };
+				area.bottom = area.top + height;
+				area.right = area.left + width;
+
+				resize_window(info, area);
+			}
 		}
 
 		void set_window_fullscreen(window_id id, bool is_fullscreen)
 		{
-			// Get reference to the window info instance
+			
 			window_info& info{ get_from_id(id) };
-
-			// Set the fullscreen status
+		
 			if (info.is_fullscreen != is_fullscreen)
 			{
 				info.is_fullscreen = is_fullscreen;
 				if (is_fullscreen)
 				{
-					// Store the old window info so it can be restored latter
 					GetClientRect(info.hwnd, &info.client_area);
 					RECT rect;
 					GetWindowRect(info.hwnd, &rect);

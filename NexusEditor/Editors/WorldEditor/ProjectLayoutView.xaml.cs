@@ -6,9 +6,6 @@ using System.Windows.Controls;
 
 namespace NexusEditor.Editors;
 
-/// <summary>
-/// ProjectLayoutView.xaml 的交互逻辑
-/// </summary>
 public partial class ProjectLayoutView : UserControl
 {
     public ProjectLayoutView()

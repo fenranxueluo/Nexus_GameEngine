@@ -2,9 +2,7 @@
 using System.Windows.Controls;
 
 namespace NexusEditor.Utilities;
-/// <summary>
-/// LoggerView.xaml 的交互逻辑
-/// </summary>
+
 public partial class LoggerView : UserControl
 {
     public LoggerView()

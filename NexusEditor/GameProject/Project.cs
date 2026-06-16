@@ -1,5 +1,4 @@
-﻿using NexusEditor;
-using NexusEditor.DllWrapper;
+﻿using NexusEditor.DllWrapper;
 using NexusEditor.GameDev;
 using NexusEditor.Utilities;
 using System.Collections.ObjectModel;

@@ -2,8 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace NexusEditor.Editors
-{
+namespace NexusEditor.Editors;
+
     [ContentProperty("ComponentContent")]
     public partial class ComponentView : UserControl
     {
@@ -32,4 +32,3 @@ namespace NexusEditor.Editors
             InitializeComponent();
         }
     }
-}

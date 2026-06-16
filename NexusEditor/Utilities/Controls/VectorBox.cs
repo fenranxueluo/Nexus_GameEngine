@@ -1,8 +1,8 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
 
-namespace NexusEditor.Utilities.Controls
-{
+namespace NexusEditor.Utilities.Controls;
+
     public enum VectorType
     {
         Vector2,
@@ -89,4 +89,3 @@ namespace NexusEditor.Utilities.Controls
                     new FrameworkPropertyMetadata(typeof(VectorBox)));
         }
     }
-}

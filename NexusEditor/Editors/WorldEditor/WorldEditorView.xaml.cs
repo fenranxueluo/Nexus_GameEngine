@@ -4,9 +4,6 @@ using NexusEditor.GameDev;
 
 namespace NexusEditor.Editors;
 
-/// <summary>
-/// WorldEditorView.xaml 的交互逻辑
-/// </summary>
 public partial class WorldEditorView : UserControl
 {
     public WorldEditorView()

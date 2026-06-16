@@ -8,11 +8,8 @@ using NexusEditor.Components;
 using NexusEditor.GameProject;
 using NexusEditor.Utilities;
 
-namespace NexusEditor.Editors
-{
-    /// <summary>
-    /// Interaction logic for TransformView.xaml
-    /// </summary>
+namespace NexusEditor.Editors;
+    
     public partial class TransformView : UserControl
     {
         private Action _undoAction = null;
@@ -121,4 +118,3 @@ namespace NexusEditor.Editors
             }
         }
     }
-}
