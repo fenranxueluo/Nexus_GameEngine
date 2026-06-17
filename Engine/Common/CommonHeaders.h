@@ -15,6 +15,7 @@
 #endif
 
 // 引擎公共头文件
+#include "../Utilities/Math.h"
 #include "../Utilities/Utilities.h"
 #include "../Utilities/MathTypes.h"
 #include "PrimitiveTypes.h"
