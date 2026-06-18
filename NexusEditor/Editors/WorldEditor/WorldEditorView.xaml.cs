@@ -2,6 +2,9 @@
 using System.Windows.Controls;
 using NexusEditor.GameDev;
 
+
+using NexusEditor.Content;
+
 namespace NexusEditor.Editors;
 
 public partial class WorldEditorView : UserControl
@@ -21,5 +24,11 @@ public partial class WorldEditorView : UserControl
     private void OnNewScript_Button_Click(object sender, RoutedEventArgs e)
     {
         new NewScriptDialog().ShowDialog();
+    }
+
+    private void OnCreatePrimitiveMesh_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new PrimitiveMeshDialog();
+        dlg.ShowDialog();
     }
 }

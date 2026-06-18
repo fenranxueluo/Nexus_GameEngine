@@ -14,6 +14,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Content\Asset.cs" />
+    <Compile Include="Content\Geometry.cs" />
+    <Compile Include="Content\PrimitiveMeshDialog.xaml.cs" />
+    <Compile Include="DllWrapper\ContentToolsAPI.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <COMReference Include="EnvDTE80">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>0</VersionMinor>
@@ -32,6 +39,10 @@
       <Isolated>false</Isolated>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Content\PrimitiveMeshDialog.xaml" />
   </ItemGroup>
 
 </Project>

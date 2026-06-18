@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Text;
+using System.Windows;
 using System.Windows.Media;
 
 namespace NexusEditor.Common;
@@ -21,3 +23,19 @@ namespace NexusEditor.Common;
             return null;
         }
     }
+
+public static class ContentHelper
+{
+    public static string GetRandomString(int length = 0)
+    {
+        if (length <= 0) length = 0;
+        var n = length / 11;
+        var sb = new StringBuilder();
+        for (int i = 0; i <= n; ++i)
+        {
+            sb.Append(Path.GetRandomFileName().Replace(".", ""));
+        }
+
+        return sb.ToString(0, length);
+    }
+}
