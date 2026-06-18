@@ -7,6 +7,8 @@
              xmlns:utl="clr-namespace:NexusEditor.Utilities"
              xmlns:ctlr="clr-namespace:NexusEditor.Utilities.Controls"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:gameproject="clr-namespace:NexusEditor.GameProject"
+             d:DataContext="{d:DesignInstance Type=gameproject:Project}"
              mc:Ignorable="d" Focusable="True"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -39,7 +41,7 @@
                 <ComboBoxItem Content="调试(Debug)"/>
                 <ComboBoxItem Content="发布(Release)"/>
             </ComboBox>
-            <Button Content="Primtive Mesh" Click="OnCreatePrimitiveMesh_Button_Click" Margin="10,0"/>
+            <Button Content="原始网格" Click="OnCreatePrimitiveMesh_Button_Click" Margin="10,0"/>
         </StackPanel>
         <Grid Grid.Row="1">
         <Grid.ColumnDefinitions>

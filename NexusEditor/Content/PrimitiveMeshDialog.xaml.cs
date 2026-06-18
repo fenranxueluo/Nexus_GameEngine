@@ -1,13 +1,19 @@
 ﻿using NexusEditor.ContentToolsAPIStructs;
 using NexusEditor.DllWrapper;
+using NexusEditor.Editors;
 using NexusEditor.Utilities.Controls;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace NexusEditor.Content;
 
     public partial class PrimitiveMeshDialog : Window
     {
+        private static readonly List<ImageBrush> _textures = new List<ImageBrush>();
+
         private void OnPrimitiveType_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdatePrimitive();
 
         private void OnSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => UpdatePrimitive();
@@ -38,26 +44,72 @@ namespace NexusEditor.Content;
                         break;
                     }
                 case PrimitveMeshType.Cube:
-                    break;
+                return;
                 case PrimitveMeshType.UVSphere:
-                    break;
+                return;
                 case PrimitveMeshType.IcoSphere:
-                    break;
+                return;
                 case PrimitveMeshType.Cylinder:
-                    break;
+                return;
                 case PrimitveMeshType.Capsule:
-                    break;
+                return;
                 default:
-                    break;
+                break;
             }
 
             var geometry = new Geometry();
             ContentToolsAPI.CreatePrimitiveMesh(geometry, info);
+            (DataContext as GeometryEditor).SetAsset(geometry);
+        OnTexture_CheckBox_Click(textureCheckBox, null);
+    }
+
+    private static void LoadTextures()
+    {
+        var paths = new List<string>
+        {
+            "Resources/PrimitiveMeshView/PlaneTexture.png",
+        };
+        _textures.Clear();
+
+        foreach (var path in paths)
+        {
+            var fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            if (!File.Exists(fullPath)) continue;
+
+            var data = File.ReadAllBytes(fullPath);
+            var imageSource = (BitmapSource)new ImageSourceConverter().ConvertFrom(data);
+            imageSource.Freeze();
+
+            var brush = new ImageBrush(imageSource);
+            brush.Transform = new ScaleTransform(1, -1, 0.5, 0.5);
+            brush.ViewportUnits = BrushMappingMode.Absolute;
+            brush.Freeze();
+            _textures.Add(brush);
         }
+    }
+
+    static PrimitiveMeshDialog()
+    {
+        LoadTextures();
+    }
 
         public PrimitiveMeshDialog()
         {
             InitializeComponent();
             Loaded += (s, e) => UpdatePrimitive();
         }
+    private void OnTexture_CheckBox_Click(object sender, RoutedEventArgs e)
+    {
+        Brush brush = Brushes.White;
+        if ((sender as CheckBox).IsChecked == true)
+        {
+            brush = _textures[(int)primalTypeComboBox.SelectedIndex];
+        }
+
+        var vm = DataContext as GeometryEditor;
+        foreach (var mesh in vm.MeshRenderer.Meshes)
+        {
+            mesh.Diffuse = brush;
+        }
     }
+}
