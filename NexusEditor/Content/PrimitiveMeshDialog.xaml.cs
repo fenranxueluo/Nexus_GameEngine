@@ -65,18 +65,17 @@ namespace NexusEditor.Content;
 
     private static void LoadTextures()
     {
-        var paths = new List<string>
-        {
-            "Resources/PrimitiveMeshView/PlaneTexture.png",
-        };
+        var uris = new List<Uri>
+            {
+                new Uri("pack://application:,,,/Resources/PrimitiveMeshView/PlaneTexture.png"),
+            };
         _textures.Clear();
 
-        foreach (var path in paths)
+        foreach (var uri in uris)
         {
-            var fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
-            if (!File.Exists(fullPath)) continue;
-
-            var data = File.ReadAllBytes(fullPath);
+            var resource = Application.GetResourceStream(uri);
+            using var reader = new BinaryReader(resource.Stream);
+            var data = reader.ReadBytes((int)resource.Stream.Length);
             var imageSource = (BitmapSource)new ImageSourceConverter().ConvertFrom(data);
             imageSource.Freeze();
 

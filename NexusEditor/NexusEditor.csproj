@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <XamlDebuggingInformation>True</XamlDebuggingInformation>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <BaseOutputPath>..\</BaseOutputPath>
     <PlatformTarget>x64</PlatformTarget>
@@ -34,10 +35,9 @@
     </COMReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Resources\PrimitiveMeshView\PlaneTexture.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+ <ItemGroup>
+    <Resource Include="Resources\PrimitiveMeshView\PlaneTexture.png" />
   </ItemGroup>
+
 
 </Project>
