@@ -115,7 +115,7 @@
                            Foreground="{StaticResource Editor.FontBrush}"/>
                 </Grid>
 
-                <Button Content="保存" Width="96" Margin="5,0"/>
+                <Button Content="保存" Width="96" Margin="5,0" Click="OnSave_Button_Click"/>
             </StackPanel>
             <!-- CUBE SETTINGS -->
             <!-- UVSPHERE SETTINGS -->
@@ -199,7 +199,7 @@
                            Foreground="{StaticResource Editor.FontBrush}"/>
                 </Grid>
 
-                <Button Content="保存" Width="96" Margin="5,0"/>
+                <Button Content="保存" Width="96" Margin="5,0"  Click="OnSave_Button_Click"/>
             </StackPanel>
             <!-- ICOSPHERE SETTINGS -->
             <!-- CYLINDER SETTINGS -->

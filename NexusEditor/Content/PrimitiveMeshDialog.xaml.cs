@@ -2,6 +2,9 @@
 using NexusEditor.DllWrapper;
 using NexusEditor.Editors;
 using NexusEditor.Utilities.Controls;
+using NexusEditor.GameProject;
+using Microsoft.Win32;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -121,6 +124,23 @@ namespace NexusEditor.Content;
         foreach (var mesh in vm.MeshRenderer.Meshes)
         {
             mesh.Diffuse = brush;
+        }
+    }
+
+    private void OnSave_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new SaveFileDialog()
+        {
+            InitialDirectory = Project.Current.ContentPath,
+            Filter = "Asset file (*.asset)|*.asset"
+        };
+
+        if (dlg.ShowDialog() == true)
+        {
+            Debug.Assert(!string.IsNullOrEmpty(dlg.FileName));
+            var asset = (DataContext as IAssetEditor).Asset;
+            Debug.Assert(asset != null);
+            asset.Save(dlg.FileName);
         }
     }
 }
