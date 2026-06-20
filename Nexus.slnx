@@ -9,20 +9,28 @@
   <Project Path="ContentTools/ContentTools.vcxproj" Id="d5564bb4-4e06-431f-8935-96762ca79ada">
     <BuildType Solution="Debug|*" Project="DebugEditor" />
     <BuildType Solution="Release|*" Project="ReleaseEditor" />
+    <Build Solution="Debug|*" Project="false" />
+    <Build Solution="Release|*" Project="false" />
   </Project>
   <Project Path="Engine/Engine.vcxproj" Id="17b680d4-0512-4ac7-8805-cb1b99a9dd3a" />
   <Project Path="EngineDLL/EngineDLL.vcxproj" Id="c4a0bf0b-e792-46fe-b262-14dd04026028">
     <BuildDependency Project="Engine/Engine.vcxproj" />
     <BuildType Solution="Debug|*" Project="DebugEditor" />
     <BuildType Solution="Release|*" Project="ReleaseEditor" />
+    <Build Solution="Debug|*" Project="false" />
+    <Build Solution="Release|*" Project="false" />
   </Project>
   <Project Path="EngineTest/EngineTest.vcxproj" Id="ac6a1533-906a-4447-ad8e-9ce8852966de">
     <BuildDependency Project="Engine/Engine.vcxproj" />
+    <Build Solution="DebugEditor|*" Project="false" />
+    <Build Solution="ReleaseEditor|*" Project="false" />
   </Project>
   <Project Path="nexusEditor/NexusEditor.csproj">
     <BuildDependency Project="EngineDLL/EngineDLL.vcxproj" />
     <BuildType Solution="Debug|*" Project="DebugEditor" />
     <BuildType Solution="Release|*" Project="ReleaseEditor" />
     <Platform Project="x64" />
+    <Build Solution="Debug|*" Project="false" />
+    <Build Solution="Release|*" Project="false" />
   </Project>
 </Solution>

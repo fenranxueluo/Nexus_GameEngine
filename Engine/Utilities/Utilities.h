@@ -4,6 +4,7 @@
 #define USF_STL_DEQUE 1
 
 #if USF_STL_VECTOR
+#include <iostream>
 #include <algorithm>
 #include <vector>
 namespace nexus::utl {
