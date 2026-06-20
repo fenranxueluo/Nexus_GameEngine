@@ -3,6 +3,8 @@
 #include "../Graphics/Renderer.h"
 #include "TestRenderer.h"
 
+#ifdef TEST_RENDERER
+
 using namespace nexus;
 
 graphics::render_surface _surfaces[4];
@@ -76,6 +78,7 @@ bool engine_test::initialize()
 void engine_test::run()
 {
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	graphics::render();
 }
 
 void engine_test::shutdown()
@@ -85,3 +88,6 @@ void engine_test::shutdown()
 
 	graphics::shutdown();
 }
+
+
+#endif // TEST_RENDERER
