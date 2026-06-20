@@ -35,7 +35,8 @@
     </COMReference>
   </ItemGroup>
 
- <ItemGroup>
+<ItemGroup>
+    <Resource Include="Resources\PrimitiveMeshView\Checkermap.png" />
     <Resource Include="Resources\PrimitiveMeshView\PlaneTexture.png" />
   </ItemGroup>
 

@@ -32,8 +32,9 @@ namespace NexusEditor.Content;
 
             var primitiveType = (PrimitveMeshType)primalTypeComboBox.SelectedIndex;
             var info = new PrimitiveInitInfo() { Type = primitiveType };
+            var smoothingAngle = 0;
 
-            switch (primitiveType)
+        switch (primitiveType)
             {
                 case PrimitveMeshType.Plane:
                     {
@@ -46,8 +47,16 @@ namespace NexusEditor.Content;
                 case PrimitveMeshType.Cube:
                 return;
                 case PrimitveMeshType.UVSphere:
-                return;
-                case PrimitveMeshType.IcoSphere:
+                {
+                    info.SegmentX = (int)xSliderUvSphere.Value;
+                    info.SegmentY = (int)ySliderUvSphere.Value;
+                    info.Size.X = Value(xScalarBoxUvSphere, 0.001f);
+                    info.Size.Y = Value(yScalarBoxUvSphere, 0.001f);
+                    info.Size.Z = Value(zScalarBoxUvSphere, 0.001f);
+                    smoothingAngle = (int)angleSliderUvSphere.Value;
+                    break;
+                }
+            case PrimitveMeshType.IcoSphere:
                 return;
                 case PrimitveMeshType.Cylinder:
                 return;
@@ -58,6 +67,7 @@ namespace NexusEditor.Content;
             }
 
             var geometry = new Geometry();
+            geometry.ImportSettings.SmootingAngle = smoothingAngle;
             ContentToolsAPI.CreatePrimitiveMesh(geometry, info);
             (DataContext as GeometryEditor).SetAsset(geometry);
         OnTexture_CheckBox_Click(textureCheckBox, null);
@@ -68,6 +78,8 @@ namespace NexusEditor.Content;
         var uris = new List<Uri>
             {
                 new Uri("pack://application:,,,/Resources/PrimitiveMeshView/PlaneTexture.png"),
+                new Uri("pack://application:,,,/Resources/PrimitiveMeshView/PlaneTexture.png"),
+                new Uri("pack://application:,,,/Resources/PrimitiveMeshView/Checkermap.png"),
             };
         _textures.Clear();
 
