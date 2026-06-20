@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NexusEditor.GameDev"
-        mc:Ignorable="d" Style="{StaticResource PrimalDialogStyle}"
+        mc:Ignorable="d" Style="{StaticResource NexusDialogStyle}"
         ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner"
         Title="新建脚本" Height="250" Width="400">
     <Border CornerRadius="3" Background="{StaticResource Editor.Window.GrayBrush3}" HorizontalAlignment="Stretch"

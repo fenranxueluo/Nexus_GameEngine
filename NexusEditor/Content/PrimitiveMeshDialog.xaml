@@ -12,7 +12,7 @@
         WindowStartupLocation="CenterScreen"
         UseLayoutRounding="True"
         Title="原始网格" Height="600" Width="800"
-        Style="{StaticResource PrimalDialogStyle}">
+        Style="{StaticResource NexusDialogStyle}">
 
     <Window.DataContext>
         <ed:GeometryEditor />

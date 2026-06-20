@@ -7,7 +7,7 @@
         xmlns:editors="clr-namespace:NexusEditor.Editors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" WindowState="Maximized"
         Title="Nexus 编辑器" Height="1080" Width="1920"
-        Style="{StaticResource PrimalWindowStyle}">
+        Style="{StaticResource NexusWindowStyle}">
     <Grid>
         <editors:WorldEditorView />
     </Grid>
